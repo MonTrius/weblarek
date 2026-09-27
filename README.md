@@ -98,3 +98,77 @@ Presenter - презентер содержит основную логику п
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
 
+### Данные
+В приложении используются две сущности, которые описывают данные, — товар и покупатель.
+#### Интерфейс IProduct
+Данный интерфейс содержит информацию о товаре.
+
+```typescript
+interface IProduct {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null;
+} 
+```
+Поля:
+`id: string;` - уникальный id товара;
+`description: string;` - описание товара;
+`image: string;` - изображение товара;
+`title: string;` - название товара;
+`category: string;` - категория товара;
+`price: number | null;` - цена товара.
+
+#### Интерфейс IBuyer
+Данный интерфейс содержит информацию о покупателе.
+
+```typescript
+interface IBuyer {
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+}
+```
+Поля:
+`payment: TPayment;` - метод оплаты, где выбран способ TPayment;
+`email: string;` - адрес электронной почты;
+`phone: string;` - номер телефона;
+`address: string;` - адрес для доставки товара.
+
+### Модели данных
+Перечисление классов, а также их характеристиков.
+#### `ProductCatalog`
+Поля:
+`products: IProduct[];` - хранит массив всех товаров;
+`currentProduct: IProduct | null;` - хранит товар, выбранный для подробного отображения;
+Методы:
+`setProducts(): void;` - сохранение массива товаров полученного в параметрах метода;
+`getProducts(): IProduct;` - получение массива товаров из модели;
+`getProductByID(id: string): IProduct | undefined;` - получение одного товара по его id;
+`setPreview(item: IProduct): void;` - сохраняет товар для подробного отображения;
+`getPreview(): IProduct | null;` - получение товара для подробного отображения.
+#### `Basket`
+Поля:
+`selectedProducts: IProduct[];` - хранит массив товаров, выбранных покупателем для покупки.
+Методы:
+`getSelectedProducts: IProduct[];` - получение массива товаров, которые находятся в корзине;
+`addProduct(item: IProduct): void;` - добавление товара, который был получен в параметре, в массив корзины;
+`delProduct(item: IProduct): void;` - удаление товара, полученного в параметре из массива корзины;
+`clearBasket(): void;` - очистка корзины;
+`getPriceBasket(): number;` - получение стоимости всех товаров в корзине;
+`getProductsBasket(): number;` - получение количества товаров в корзине;
+`isBasket(id: string): boolean;` - проверка наличия товара в корзине по его id, полученного в параметр метода.
+#### `Buyer`
+Поля:
+`payment: TPayment;` - метод оплаты, где выбран способ TPayment;;
+`address: sting;` - адрес для доставки товара;
+`phone: string;` - номер телефона;
+`email: string;` - адрес электронной почты.
+Методы:
+`setBuyerData(data: Partial<IBuyer>): void;` - производит сохранение новых данных в модели, при этом позволяя частичное изменение поля, что не затрагивает другие поля;
+`getBuyerData(): IBuyer;` - получение всех данных покупателя;
+`clearBuyerData(): void;` - очистка данных покупателя;
+`isValidData(data: Partial<IBuyer>): Partial<Record<keyof IBuyer, string>>;` - проверка валидации данных.
