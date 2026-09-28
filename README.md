@@ -172,3 +172,4 @@ interface IBuyer {
 `getBuyerData(): IBuyer;` - получение всех данных покупателя;  
 `clearBuyerData(): void;` - очистка данных покупателя;  
 `isValidData(data: Partial<IBuyer>): Partial<Record<keyof IBuyer, string>>;` - проверка валидации данных.  
+
