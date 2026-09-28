@@ -1,4 +1,4 @@
-import { IBuyer, TPayment } from '../../types';
+import { IBuyer, TPayment } from "../../types";
 
 export class Buyer {
   payment: TPayment;
@@ -8,9 +8,9 @@ export class Buyer {
 
   constructor() {
     this.payment = null;
-    this.address = '';
-    this.phone = '';
-    this.email = '';
+    this.address = "";
+    this.phone = "";
+    this.email = "";
   }
 
   setBuyerData(data: Partial<IBuyer>): void {
@@ -39,25 +39,25 @@ export class Buyer {
 
   clearBuyerData(): void {
     this.payment = null;
-    this.address = '';
-    this.phone = '';
-    this.email = '';
+    this.address = "";
+    this.phone = "";
+    this.email = "";
   }
 
   isValidData(): Partial<Record<keyof IBuyer, string>> {
     const errors: Partial<Record<keyof IBuyer, string>> = {};
 
     if (!this.payment) {
-      errors.payment = 'Не выбран метод оплаты';
+      errors.payment = "Не выбран метод оплаты";
     }
     if (!this.address) {
-      errors.address = 'Не указан адрес доставки';
+      errors.address = "Не указан адрес доставки";
     }
     if (!this.phone) {
-      errors.phone = 'Не указан телефон';
+      errors.phone = "Не указан телефон";
     }
     if (!this.email) {
-      errors.email = 'Не указана электронная почта';
+      errors.email = "Не указана электронная почта";
     }
 
     return errors;

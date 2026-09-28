@@ -1,4 +1,4 @@
-import { IProduct } from '../../types';
+import { IProduct } from "../../types";
 
 export class Basket {
   selectedProducts: IProduct[];
@@ -16,7 +16,9 @@ export class Basket {
   }
 
   delProduct(item: IProduct): void {
-    this.selectedProducts = this.selectedProducts.filter(selectedProduct => selectedProduct.id !== item.id)
+    this.selectedProducts = this.selectedProducts.filter(
+      (selectedProduct) => selectedProduct.id !== item.id,
+    );
   }
 
   clearBasket(): void {
@@ -24,7 +26,10 @@ export class Basket {
   }
 
   getPriceBasket(): number {
-    return this.selectedProducts.reduce((price, selectedProduct) => price + (selectedProduct.price || 0), 0);
+    return this.selectedProducts.reduce(
+      (price, selectedProduct) => price + (selectedProduct.price || 0),
+      0,
+    );
   }
 
   getProductsBasket(): number {
@@ -32,6 +37,6 @@ export class Basket {
   }
 
   isBasket(id: string): boolean {
-    return this.selectedProducts.some(item => item.id === id);
+    return this.selectedProducts.some((item) => item.id === id);
   }
 }

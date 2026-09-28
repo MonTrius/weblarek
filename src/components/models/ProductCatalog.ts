@@ -1,4 +1,4 @@
-import { IProduct } from '../../types';
+import { IProduct } from "../../types";
 
 export class ProductCatalog {
   products: IProduct[];
@@ -18,7 +18,7 @@ export class ProductCatalog {
   }
 
   getProductByID(id: string): IProduct | undefined {
-    return this.products.find(item => item.id === id);
+    return this.products.find((item) => item.id === id);
   }
 
   setPreview(item: IProduct): void {
