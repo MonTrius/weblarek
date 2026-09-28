@@ -2,7 +2,10 @@ import './scss/styles.scss';
 import { Buyer } from './components/models/Buyer';
 import { Basket } from './components/models/Basket';
 import { ProductCatalog } from './components/models/ProductCatalog';
+import { Api } from './components/base/Api';
 import { apiProducts } from './utils/data';
+import { WebApi } from './components/models/WebApi';
+import { API_URL } from './utils/constants';
 
 
 const pproductCatalog = new ProductCatalog();
@@ -37,4 +40,11 @@ console.log('Получение всех данных покупателя:', bB
 console.log('Очистка данных покупателя:', bBuyer.clearBuyerData());
 console.log('Получение всех данных покупателя:', bBuyer.getBuyerData());
 
-
+const api = new Api(API_URL);
+const webApi = new WebApi(api);
+webApi.getProductsRequest().then(products => {
+  pproductCatalog.setProducts(products);
+  console.log('Массив товаров от сервера:', pproductCatalog.getProducts());
+}).catch(error => {
+  console.error('Ошибка API:',error);
+});
