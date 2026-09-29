@@ -158,15 +158,15 @@ interface IBuyer {
 Методы:  
 `getSelectedProducts(): IProduct[];` - получение массива товаров, которые находятся в корзине;  
 `addProduct(item: IProduct): void;` - добавление товара, который был получен в параметре, в массив корзины;  
-`delProduct(item: IProduct): void;` - удаление товара, полученного в параметре из массива корзины;  
+`delProduct(id: string): void;` - удаление товара, полученного в параметре из массива корзины;  
 `clearBasket(): void;` - очистка корзины;  
 `getPriceBasket(): number;` - получение стоимости всех товаров в корзине;  
 `getProductsBasket(): number;` - получение количества товаров в корзине;  
-`isBasket(id: string): boolean;` - проверка наличия товара в корзине по его id, полученного в параметр метода.  
+`isInBasket(id: string): boolean;` - проверка наличия товара в корзине по его id, полученного в параметр метода.  
 #### Класс `Buyer`
 Данный класс нужен для сохранения данных покупателя, где можно проверить на их ошибки, а также очистить поля данных.
 Поля:  
-`payment: TPayment;` - метод оплаты, где выбран способ TPayment;  
+`payment: TPayment | null;` - метод оплаты, где выбран способ TPayment;  
 `address: string;` - адрес для доставки товара;  
 `phone: string;` - номер телефона;  
 `email: string;` - адрес электронной почты.  
@@ -174,7 +174,8 @@ interface IBuyer {
 `setBuyerData(data: Partial<IBuyer>): void;` - производит сохранение новых данных в модели, при этом позволяя частичное изменение поля, что не затрагивает другие поля;  
 `getBuyerData(): IBuyer;` - получение всех данных покупателя;  
 `clearBuyerData(): void;` - очистка данных покупателя;  
-`isValidData(data: Partial<IBuyer>): Partial<Record<keyof IBuyer, string>>;` - проверка валидации данных.  
+`isValidData(data: Partial<IBuyer>): BuyerValidation;` - проверка валидации данных,  
+где `type BuyerValidation = Partial<Record<keyof IBuyer, string>>;`.  
 ### Слой коммуникации
 #### Класс WebApi
 Данный класс использует композицию, чтобы выполнить запрос на сервер с помощью метода get класса `Api`

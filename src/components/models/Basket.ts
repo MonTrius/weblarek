@@ -1,7 +1,7 @@
 import { IProduct } from "../../types";
 
 export class Basket {
-  selectedProducts: IProduct[];
+  protected selectedProducts: IProduct[];
 
   constructor() {
     this.selectedProducts = [];
@@ -15,10 +15,9 @@ export class Basket {
     this.selectedProducts.push(item);
   }
 
-  delProduct(item: IProduct): void {
+  delProduct(id: string): void {
     this.selectedProducts = this.selectedProducts.filter(
-      (selectedProduct) => selectedProduct.id !== item.id,
-    );
+      (selectedProduct) => selectedProduct.id !== id);
   }
 
   clearBasket(): void {
@@ -36,7 +35,7 @@ export class Basket {
     return this.selectedProducts.length;
   }
 
-  isBasket(id: string): boolean {
+  isInBasket(id: string): boolean {
     return this.selectedProducts.some((item) => item.id === id);
   }
 }

@@ -33,14 +33,14 @@ console.log(
   "Получение стоимости всех товаров в корзине:",
   bBasket.getPriceBasket(),
 );
-bBasket.delProduct(apiProducts.items[1]);
+bBasket.delProduct(apiProducts.items[1].id);
 console.log(
   "Получение количества товаров в корзине:",
   bBasket.getProductsBasket(),
 );
 console.log(
   "Проверка наличия товара в корзине по его id, полученного в параметр метода:",
-  bBasket.isBasket("854cef69-976d-4c2a-a18c-2aa45046c390"),
+  bBasket.isInBasket("854cef69-976d-4c2a-a18c-2aa45046c390"),
 );
 bBasket.clearBasket();
 console.log(
@@ -52,12 +52,13 @@ const bBuyer = new Buyer();
 bBuyer.setBuyerData({
   payment: "card",
   address: "Kaluga, George Amelina",
-  phone: "89998887676",
   email: "example123@mail.ru",
 });
+
 console.log("Проверка валидации данных:", bBuyer.isValidData());
 console.log("Получение всех данных покупателя:", bBuyer.getBuyerData());
 console.log("Очистка данных покупателя:", bBuyer.clearBuyerData());
+console.log("Проверка валидации данных:", bBuyer.isValidData());
 console.log("Получение всех данных покупателя:", bBuyer.getBuyerData());
 
 const api = new Api(API_URL);

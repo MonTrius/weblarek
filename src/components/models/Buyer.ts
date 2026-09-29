@@ -1,10 +1,12 @@
 import { IBuyer, TPayment } from "../../types";
 
+export type BuyerValidation = Partial<Record<keyof IBuyer, string>>;
+
 export class Buyer {
-  payment: TPayment;
-  address: string;
-  phone: string;
-  email: string;
+  protected payment: TPayment | null;
+  protected address: string;
+  protected phone: string;
+  protected email: string;
 
   constructor() {
     this.payment = null;
@@ -44,8 +46,8 @@ export class Buyer {
     this.email = "";
   }
 
-  isValidData(): Partial<Record<keyof IBuyer, string>> {
-    const errors: Partial<Record<keyof IBuyer, string>> = {};
+  isValidData(): BuyerValidation {
+    const errors: BuyerValidation = {};
 
     if (!this.payment) {
       errors.payment = "Не выбран метод оплаты";
