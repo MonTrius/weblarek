@@ -183,6 +183,6 @@ interface IBuyer {
 Конструктор:  
 `constructor(api: IApi);` - берет объект, где интерфейс `IApi`.  
 Методы:  
-`getProductsRequest(): Promise<IProduct[]>;` - производит GET запрос на эндпоинт `/product/` и возвращает объект, полученный от сервера, в котором находится массив товаров;  
+`getProductsRequest(): Promise<IProductResponse>;` - производит GET запрос на эндпоинт `/product/` и возвращает объект, полученный от сервера, в котором находится массив товаров;  
 `postOrder(order: IOrderRequest): Promise<IOrderResponse>;` - производит POST запрос на эндпоинт `/order/` и передает в него данные, а также возвращает объект, подтверждающий покупку на определенную сумму.  
 

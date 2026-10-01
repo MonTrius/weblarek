@@ -27,6 +27,11 @@ export interface IBuyer {
   address: string;
 }
 
+export interface IProductResponse {
+  total: number;
+  items: IProduct[];
+}
+
 export interface IOrderRequest extends IBuyer {
   total: number;
   items: string[];

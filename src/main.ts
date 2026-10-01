@@ -6,6 +6,7 @@ import { Api } from "./components/base/Api";
 import { apiProducts } from "./utils/data";
 import { WebApi } from "./components/models/WebApi";
 import { API_URL } from "./utils/constants";
+import { IProductResponse } from "./types";
 
 const pproductCatalog = new ProductCatalog();
 pproductCatalog.setProducts(apiProducts.items);
@@ -66,7 +67,7 @@ const webApi = new WebApi(api);
 webApi
   .getProductsRequest()
   .then((products) => {
-    pproductCatalog.setProducts(products);
+    pproductCatalog.setProducts(products.items);
     console.log("Массив товаров от сервера:", pproductCatalog.getProducts());
   })
   .catch((error) => {
