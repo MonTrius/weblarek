@@ -6,7 +6,6 @@ import { Api } from "./components/base/Api";
 import { apiProducts } from "./utils/data";
 import { WebApi } from "./components/models/WebApi";
 import { API_URL } from "./utils/constants";
-import { IProductResponse } from "./types";
 
 const pproductCatalog = new ProductCatalog();
 pproductCatalog.setProducts(apiProducts.items);
