@@ -1,4 +1,5 @@
 import { IBuyer, TPayment } from "../../types";
+import { IEvents } from "../base/Events";
 
 export type BuyerValidation = Partial<Record<keyof IBuyer, string>>;
 
@@ -8,7 +9,7 @@ export class Buyer {
   protected phone: string;
   protected email: string;
 
-  constructor() {
+  constructor(protected events: IEvents) {
     this.payment = null;
     this.address = "";
     this.phone = "";
@@ -28,6 +29,8 @@ export class Buyer {
     if (data.email !== undefined) {
       this.email = data.email;
     }
+
+    this.events.emit("buyer:change");
   }
 
   getBuyerData(): IBuyer {
@@ -44,6 +47,8 @@ export class Buyer {
     this.address = "";
     this.phone = "";
     this.email = "";
+
+    this.events.emit("buyer:change");
   }
 
   isValidData(): BuyerValidation {

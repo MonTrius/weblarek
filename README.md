@@ -142,34 +142,40 @@ interface IBuyer {
 Перечисление классов, а также их характеристиков.
 #### Класс `ProductCatalog`
 Данный класс используется для хранения товаров в каталоге, а также отображения и получения товара по `id`.
+Конструктор:  
+`constructor(protected events: IEvents);` - получает объект для управления событий.  
 Поля:  
-`products: IProduct[];` - хранит массив всех товаров;  
-`currentProduct: IProduct | null;` - хранит товар, выбранный для подробного отображения;  
+`protected products: IProduct[];` - хранит массив всех товаров;  
+`protected currentProduct: IProduct | null;` - хранит товар, выбранный для подробного отображения;  
 Методы:  
 `setProducts(selectedProducts: IProduct[]): void;` - сохранение массива товаров полученного в параметрах метода;  
 `getProducts(): IProduct[];` - получение массива товаров из модели;  
 `getProductByID(id: string): IProduct | undefined;` - получение одного товара по его id;  
-`setPreview(item: IProduct): void;` - сохраняет товар для подробного отображения;  
+`setPreview(id: string): void;` - сохраняет товар для подробного отображения;  
 `getPreview(): IProduct | null;` - получение товара для подробного отображения.  
 #### Класс `Basket`
 Данный класс используется для хранения товаров в корзине, что отобрал покупатель, где можно добавлять/удалять выбранный товар. Дополнительно дает возможность получения стоимости и количества всех товаров в корзине.
+Конструктор:  
+`constructor(protected events: IEvents);` - получает объект для управления событий.  
 Поля:  
-`selectedProducts: IProduct[];` - хранит массив товаров, выбранных покупателем для покупки.  
+`protected selectedProducts: IProduct[];` - хранит массив товаров, выбранных покупателем для покупки.  
 Методы:  
 `getSelectedProducts(): IProduct[];` - получение массива товаров, которые находятся в корзине;  
 `addProduct(item: IProduct): void;` - добавление товара, который был получен в параметре, в массив корзины;  
-`delProduct(id: string): void;` - удаление товара, полученного в параметре из массива корзины;  
+`delProduct(item: IProduct): void;` - удаление товара, полученного в параметре из массива корзины;  
 `clearBasket(): void;` - очистка корзины;  
 `getPriceBasket(): number;` - получение стоимости всех товаров в корзине;  
 `getProductsBasket(): number;` - получение количества товаров в корзине;  
 `isInBasket(id: string): boolean;` - проверка наличия товара в корзине по его id, полученного в параметр метода.  
 #### Класс `Buyer`
 Данный класс нужен для сохранения данных покупателя, где можно проверить на их ошибки, а также очистить поля данных.
+Конструктор:  
+`constructor(protected events: IEvents);` - получает объект для управления событий.  
 Поля:  
-`payment: TPayment | null;` - метод оплаты, где выбран способ TPayment;  
-`address: string;` - адрес для доставки товара;  
-`phone: string;` - номер телефона;  
-`email: string;` - адрес электронной почты.  
+`protected payment: TPayment | null;` - метод оплаты, где выбран способ TPayment;  
+`protected address: string;` - адрес для доставки товара;  
+`protected phone: string;` - номер телефона;  
+`protected email: string;` - адрес электронной почты.  
 Методы:  
 `setBuyerData(data: Partial<IBuyer>): void;` - производит сохранение новых данных в модели, при этом позволяя частичное изменение поля, что не затрагивает другие поля;  
 `getBuyerData(): IBuyer;` - получение всех данных покупателя;  
@@ -182,7 +188,132 @@ interface IBuyer {
 и будет получать с сервера объект с массивом товаров.  
 Конструктор:  
 `constructor(api: IApi);` - берет объект, где интерфейс `IApi`.  
+Поля:
+`protected api: IApi;` - объект для запросов.
 Методы:  
 `getProductsRequest(): Promise<IProductResponse>;` - производит GET запрос на эндпоинт `/product/` и возвращает объект, полученный от сервера, в котором находится массив товаров;  
 `postOrder(order: IOrderRequest): Promise<IOrderResponse>;` - производит POST запрос на эндпоинт `/order/` и передает в него данные, а также возвращает объект, подтверждающий покупку на определенную сумму.  
-
+### Слой представления
+#### Абстрактный класс Card
+Конструктор:  
+`constructor(container: HTMLElement);` - получает контейнер элемента.  
+Поля:  
+`protected cardId?: string;` - принимает элемент для того, чтобы отображался номер товара;  
+`protected cardTitle: HTMLElement;` - принимает элемент для того, чтобы отображалось название товара;  
+`protected cardPrice: HTMLElement;` - принимает элемент для того, чтобы отображалось стоимость товара.   
+Методы:  
+`setCardId(value: string);` - устанавливает номер карточки товара;  
+`setCardTitle(value: string);` - устанавливает название карточки товара;  
+`setCardPrice(value: number | null);` - устанавливает стоимость карточки товара.  
+#### Абстрактный класс Form
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected formButton: HTMLButtonElement;` - принимает элемент для того, чтобы подтверждать отправку данных;  
+`protected formError: HTMLElement;` - принимает элемент для того, чтобы отображать ошибки формы.  
+Методы:  
+`setValidButton(value: boolean);` - проверяет валидность состояния кнопки;  
+`setErrors(value: string);` - показывает ошибки формы.  
+#### Класс Gallery
+Конструктор:  
+`constructor(container: HTMLElement);` - получает контейнер элемента.  
+Методы:  
+`setCatalog(items: HTMLElement[]);` - метод для отображения текущего каталога товаров.  
+#### Класс Header
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected basketButton: HTMLButtonElement;` - нужен для того, чтобы отображалась кнопка корзины в шапке сайта;  
+`protected counterElement: HTMLElement;` - нужен для того, чтобы отображалось количество товаров в иконке корзины.  
+Методы:  
+`setCounter(value: number);` - метод для изменения количество товаров в корзине.  
+#### Класс Modal
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected modalContent: HTMLElement;` - область модального окна для его содержимого;  
+`protected modalButton: HTMLButtonElement;` - элемент кнопки нужен для закрытия модального окна.  
+Методы:  
+`setContent(value: HTMLElement);` - метод для установки текущего элемента в области модального окна;  
+`modalOpen(): void;` - метод для открытия модального окна;  
+`modalClose(): void;` - метод для закрытия модального окна.  
+#### Класс BasketCard
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected cardIndex: HTMLElement;` - элемент отвечает за номер товара в корзине;  
+`protected cardButton: HTMLButtonElement;` - принимает элемент кнопки для удаления товара из корзины.  
+Методы:  
+`setIndex(value: number);` - метод для установки номера товара в корзине.  
+#### Класс CatalogCard
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected cardCategory: HTMLElement;` - принимает элемент для категории карточки товара;  
+`protected cardImage: HTMLImageElement;` - принимает элемент изображения для товара.  
+Методы:  
+`setCategory(value: string);` - устанавливает категорию карточки товара;  
+`setImageCard(value: string);` - устанаваливает изображение товара.  
+#### Класс PreviewCard
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected cardCategory: HTMLElement;` - принимает элемент для категории карточки товара;  
+`protected cardImage: HTMLImageElement;` - принимает элемент изображения для товара.  
+`protected cardDescription: HTMLElement;` - принимает элемент для описания товара;  
+`protected cardButton: HTMLButtonElement;` - принимает элемент кнопки для добавления товара.  
+Методы:  
+`setCategory(value: string);` - устанавливает категорию карточки товара;  
+`setImageCard(value: string);` - устанаваливает изображение товара;  
+`setDescription(value: string);` - устанавливает описание для товара;  
+`setButtonText(value: string);` - устанавливает текст у кнопки товара.  
+#### Класс BasketPreview
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected basketProducts: HTMLElement;` - принимает элемент для того, чтобы видеть товары в корзине;  
+`protected basketButton: HTMLButtonElement;` - принимает элемент кнопки для того, чтобы воспроизводить процесс оформления заказа;  
+`protected basketPrice: HTMLElement;` - принимает элемент, чтобы показывать стоимость товаров в корзине.  
+Методы:  
+`setItems(items: HTMLElement[]);` - обновляет список товаров, что находятся в корзине;  
+`setValidButton(value: boolean);` - проверяет валидность состояния кнопки;  
+`setPrice(value: number);` - обновляет общую стоимость товаров в корзине.  
+#### Класс Success
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected successButton: HTMLButtonElement;` - принимает элемент кнопки для того, чтобы показать успешность выполнении заказа;  
+`protected successPrice: HTMLElement;` - принимает элемент, который показывает списанную сумму.  
+Методы:  
+`setPrice(value: number);` - отображает общую списанную стоимость.  
+#### Класс Contacts
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected emailElement: HTMLInputElement;` - строка для ввода электронной почты;  
+`protected phoneElement: HTMLInputElement;` - строка для ввода номера телефона.  
+Методы:  
+`setEmail(value: string);` - задает значение в строке электроной почты;  
+`setPhone(value: string);` - задает значение в строке номера телефона.  
+#### Класс Order
+Конструктор:  
+`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+Поля:  
+`protected cardButton: HTMLButtonElement;` - нужен для кнопки выбора способа оплаты по карте;  
+`protected cashButton: HTMLButtonElement;` - нужен для кнопки выбора способа оплаты наличными;  
+`protected addressElement: HTMLInputElement;` - строка для ввода адреса доставки.  
+Методы:  
+`setPayment(value: string);` - метод для выбора способа оплаты;  
+`setAddress(value: string);` - задает значение в строке адреса.  
+### Презентер
+#### События
+`("basket:change")` - происходит изменение корзины, а именно добавление и удаление товаров в корзине;  
+`("buyer:change")` - происходит изменение данных покупателя, а именно - телефона, способа платежа, адреса, электронной почты;  
+`("catalog:change")` - происходит изменение каталога товаров, а именно сохранение массива товаров;  
+`("product:change")` - происходит изменение карточки товара, а именно сохранение товара для подробного отображения;  
+`("basketCard:remove"...)` - происходит удаление карточки в корзине;  
+`("order:start")` - происходит начало процесса оформления заказа;  
+`("CatalogCard:click"...)` - происходит добавление товара из каталога;    
+`("basket:open")` - происходит открытие корзины из шапки сайта;   
+`("PreviewCard:click"...)` - происходит передача информации о товаре в корзину;  
+`("success:close")` - происходит закрытие модального окна заказа об его успешности.  

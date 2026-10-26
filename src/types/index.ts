@@ -41,3 +41,45 @@ export interface IOrderResponse {
   id: string;
   total: number;
 }
+
+export interface ICard extends Partial<IProduct> {
+  index?: number;
+}
+
+export type ICardPreview = Pick<IProduct, "description" | "image" | "category">;
+
+export interface IForm {
+  valid: boolean;
+  errors: string[];
+}
+
+export interface IGallery {
+  catalog: HTMLElement[];
+}
+
+export interface IHeader {
+  counter: number;
+}
+
+export interface IModal { 
+  content: HTMLElement;
+}
+
+export interface IBasketPreview {
+  items: HTMLElement[];
+  total: number;
+}
+
+export interface ISuccess {
+  total: number;
+}
+
+export interface IContacts extends IForm {
+  email: string;
+  phone: string;
+}
+
+export interface IOrder extends IForm {
+  payment: TPayment;
+  address: string;
+}

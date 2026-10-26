@@ -1,16 +1,18 @@
 import { IProduct } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class ProductCatalog {
   protected products: IProduct[];
   protected currentProduct: IProduct | null;
 
-  constructor() {
+  constructor(protected events: IEvents) {
     this.products = [];
     this.currentProduct = null;
   }
 
   setProducts(selectedProducts: IProduct[]): void {
     this.products = selectedProducts;
+    this.events.emit("catalog:change");
   }
 
   getProducts(): IProduct[] {
@@ -21,8 +23,9 @@ export class ProductCatalog {
     return this.products.find((item) => item.id === id);
   }
 
-  setPreview(item: IProduct): void {
-    this.currentProduct = item;
+  setPreview(id: string): void {
+    this.currentProduct = this.products.filter(item => item.id === id)[0];
+    this.events.emit("product:change");
   }
 
   getPreview(): IProduct | null {
