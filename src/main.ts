@@ -2,7 +2,7 @@ import "./scss/styles.scss";
 import { Buyer } from "./components/models/Buyer";
 import { Basket } from "./components/models/Basket";
 import { ProductCatalog } from "./components/models/ProductCatalog";
-import { IOrderRequest, IProductResponse /*, IOrderResponse, IProduct */ } from "./types";
+import { IOrderRequest, IProductResponse } from "./types";
 import { Api } from "./components/base/Api"; 
 import { WebApi } from "./components/models/WebApi";
 import { API_URL } from "./utils/constants";
