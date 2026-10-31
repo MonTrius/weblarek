@@ -1,10 +1,10 @@
 import { Card } from "../functionality/abstract/Card";
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
-import { ICardPreview } from "../../types";
+import { ICardPreview, IProduct } from "../../types";
 import { categoryMap, CDN_URL } from "../../utils/constants";
 
-export class PreviewCard extends Card<ICardPreview> {
+export class PreviewCard extends Card<IProduct> {
   protected cardCategory: HTMLElement;
   protected cardImage: HTMLImageElement;
   protected cardDescription: HTMLElement;
@@ -19,30 +19,34 @@ export class PreviewCard extends Card<ICardPreview> {
     this.cardButton = ensureElement<HTMLButtonElement>(".card__button", this.container);
 
     this.cardButton.addEventListener('click', () => {
-      this.events.emit("PreviewCard:click", {id: this.cardId});
+      this.events.emit("PreviewCard:click");
     });
   }
 
-  setCategory(value: string) {
+  set category(value: string) {
     this.cardCategory.textContent = value;
     for (const key in categoryMap) {
       this.cardCategory.classList.toggle(
         categoryMap[key as keyof typeof categoryMap],
-        key == value
+        key === value
       );
     }
   }
 
-  setImageCard(value: string) {
-    this.cardImage.src = `${CDN_URL}${value}`;
-    this.setImage(this.cardImage, value, this.cardTitle.textContent || "Изображение товара");
+  set image(value: string) {
+    this.setImage(this.cardImage, `${CDN_URL}${value}`);
   }
 
-  setDescription(value: string) {
+  set description(value: string) {
     this.cardDescription.textContent = value;
   }
 
-  setButtonText(value: string) {
+  set buttonText(value: string) {
     this.cardButton.textContent = value;
+  }
+
+  set disabled(value: boolean) {
+    this.cardButton.disabled = value;
+    this.cardButton.classList.toggle('button_disabled', value);
   }
 }

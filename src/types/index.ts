@@ -2,6 +2,18 @@ export type ApiPostMethods = "POST" | "PUT" | "DELETE";
 
 export type TPayment = "card" | "cash";
 
+export type BuyerValidation = Partial<Record<keyof IBuyer, string>>;
+
+export type ICardPreview = Pick<IProduct, "description" | "image" | "category">;
+
+export type ICardCatalog = Pick<IProduct, "image" | "category">;
+
+export type IBasketCard = {
+  index: number;
+}
+
+export const Valuta = "синапсов";
+
 export interface IApi {
   get<T extends object>(uri: string): Promise<T>;
   post<T extends object>(
@@ -32,25 +44,20 @@ export interface IProductResponse {
   items: IProduct[];
 }
 
-export interface IOrderRequest extends IBuyer {
-  total: number;
-  items: string[];
-}
-
 export interface IOrderResponse {
   id: string;
   total: number;
 }
 
-export interface ICard extends Partial<IProduct> {
-  index?: number;
-}
+export interface IOrderRequest extends IBuyer {
+  total: number;
+  items: string[];
+} 
 
-export type ICardPreview = Pick<IProduct, "description" | "image" | "category">;
+export type ICard = Pick<IProduct, 'title' | 'price'>;
 
 export interface IForm {
-  valid: boolean;
-  errors: string[];
+  errors: string;
 }
 
 export interface IGallery {
@@ -80,6 +87,10 @@ export interface IContacts extends IForm {
 }
 
 export interface IOrder extends IForm {
-  payment: TPayment;
+  payment: TPayment | null;
   address: string;
+}
+
+export interface ICardACtions {
+  onClick?: (event: MouseEvent) => void;
 }

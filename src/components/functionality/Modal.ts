@@ -5,7 +5,7 @@ import { IModal } from "../../types";
 
 export class Modal extends Component<IModal> {
   protected modalContent: HTMLElement;
-  protected modalButton: HTMLButtonElement
+  protected modalButton: HTMLButtonElement;
 
   constructor(container: HTMLElement, protected events: IEvents) {
     super(container);
@@ -14,14 +14,12 @@ export class Modal extends Component<IModal> {
     this.modalButton = ensureElement<HTMLButtonElement>(".modal__close", this.container);
 
     this.modalButton.addEventListener('click', () => {
-      this.modalClose();
-      this.events.emit("modal:close");
+      this.close();
     });
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        this.modalClose();
-        this.events.emit("modal:close");
+    this.container.addEventListener('click', (event) => {
+      if (event.target === this.container) {
+        this.close();
       }
     });
   }
@@ -30,11 +28,11 @@ export class Modal extends Component<IModal> {
     this.modalContent.replaceChildren(value);
   }
 
-  modalOpen(): void {
+  open(): void {
     this.container.classList.add("modal_active");
   }
 
-  modalClose(): void {
+  close(): void {
     this.container.classList.remove("modal_active");
   }
 }

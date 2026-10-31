@@ -151,7 +151,7 @@ interface IBuyer {
 `setProducts(selectedProducts: IProduct[]): void;` - сохранение массива товаров полученного в параметрах метода;  
 `getProducts(): IProduct[];` - получение массива товаров из модели;  
 `getProductByID(id: string): IProduct | undefined;` - получение одного товара по его id;  
-`setPreview(id: string): void;` - сохраняет товар для подробного отображения;  
+`setPreview(item: IProduct)` - сохраняет товар для подробного отображения;  
 `getPreview(): IProduct | null;` - получение товара для подробного отображения.  
 #### Класс `Basket`
 Данный класс используется для хранения товаров в корзине, что отобрал покупатель, где можно добавлять/удалять выбранный товар. Дополнительно дает возможность получения стоимости и количества всех товаров в корзине.
@@ -198,13 +198,11 @@ interface IBuyer {
 Конструктор:  
 `constructor(container: HTMLElement);` - получает контейнер элемента.  
 Поля:  
-`protected cardId?: string;` - принимает элемент для того, чтобы отображался номер товара;  
 `protected cardTitle: HTMLElement;` - принимает элемент для того, чтобы отображалось название товара;  
 `protected cardPrice: HTMLElement;` - принимает элемент для того, чтобы отображалось стоимость товара.   
 Методы:  
-`setCardId(value: string);` - устанавливает номер карточки товара;  
-`setCardTitle(value: string);` - устанавливает название карточки товара;  
-`setCardPrice(value: number | null);` - устанавливает стоимость карточки товара.  
+`set title(value: string);` - устанавливает название карточки товара;  
+`set price(value: number | null);` - устанавливает стоимость карточки товара.  
 #### Абстрактный класс Form
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -212,13 +210,13 @@ interface IBuyer {
 `protected formButton: HTMLButtonElement;` - принимает элемент для того, чтобы подтверждать отправку данных;  
 `protected formError: HTMLElement;` - принимает элемент для того, чтобы отображать ошибки формы.  
 Методы:  
-`setValidButton(value: boolean);` - проверяет валидность состояния кнопки;  
-`setErrors(value: string);` - показывает ошибки формы.  
+`set valid(value: boolean);` - проверяет валидность состояния кнопки;  
+`set errors(value: string);` - показывает ошибки формы.  
 #### Класс Gallery
 Конструктор:  
 `constructor(container: HTMLElement);` - получает контейнер элемента.  
 Методы:  
-`setCatalog(items: HTMLElement[]);` - метод для отображения текущего каталога товаров.  
+`set catalog(items: HTMLElement[]);` - метод для отображения текущего каталога товаров.  
 #### Класс Header
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -226,7 +224,7 @@ interface IBuyer {
 `protected basketButton: HTMLButtonElement;` - нужен для того, чтобы отображалась кнопка корзины в шапке сайта;  
 `protected counterElement: HTMLElement;` - нужен для того, чтобы отображалось количество товаров в иконке корзины.  
 Методы:  
-`setCounter(value: number);` - метод для изменения количество товаров в корзине.  
+`set counter(value: number);` - метод для изменения количество товаров в корзине.  
 #### Класс Modal
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -234,9 +232,9 @@ interface IBuyer {
 `protected modalContent: HTMLElement;` - область модального окна для его содержимого;  
 `protected modalButton: HTMLButtonElement;` - элемент кнопки нужен для закрытия модального окна.  
 Методы:  
-`setContent(value: HTMLElement);` - метод для установки текущего элемента в области модального окна;  
-`modalOpen(): void;` - метод для открытия модального окна;  
-`modalClose(): void;` - метод для закрытия модального окна.  
+`set сontent(value: HTMLElement);` - метод для установки текущего элемента в области модального окна;  
+`open(): void;` - метод для открытия модального окна;  
+`close(): void;` - метод для закрытия модального окна.  
 #### Класс BasketCard
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -244,7 +242,7 @@ interface IBuyer {
 `protected cardIndex: HTMLElement;` - элемент отвечает за номер товара в корзине;  
 `protected cardButton: HTMLButtonElement;` - принимает элемент кнопки для удаления товара из корзины.  
 Методы:  
-`setIndex(value: number);` - метод для установки номера товара в корзине.  
+`set index(value: number);` - метод для установки номера товара в корзине.  
 #### Класс CatalogCard
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -252,8 +250,8 @@ interface IBuyer {
 `protected cardCategory: HTMLElement;` - принимает элемент для категории карточки товара;  
 `protected cardImage: HTMLImageElement;` - принимает элемент изображения для товара.  
 Методы:  
-`setCategory(value: string);` - устанавливает категорию карточки товара;  
-`setImageCard(value: string);` - устанаваливает изображение товара.  
+`set category(value: string);` - устанавливает категорию карточки товара;  
+`set image(value: string);` - устанаваливает изображение товара.  
 #### Класс PreviewCard
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -263,10 +261,11 @@ interface IBuyer {
 `protected cardDescription: HTMLElement;` - принимает элемент для описания товара;  
 `protected cardButton: HTMLButtonElement;` - принимает элемент кнопки для добавления товара.  
 Методы:  
-`setCategory(value: string);` - устанавливает категорию карточки товара;  
-`setImageCard(value: string);` - устанаваливает изображение товара;  
-`setDescription(value: string);` - устанавливает описание для товара;  
-`setButtonText(value: string);` - устанавливает текст у кнопки товара.  
+`set category(value: string);` - устанавливает категорию карточки товара;  
+`set image(value: string);` - устанаваливает изображение товара;  
+`set description(value: string);` - устанавливает описание для товара;  
+`set buttonText(value: string);` - устанавливает текст у кнопки товара;  
+`set disabled(value: boolean);` - устанавливает запрет на кнопку товара.  
 #### Класс BasketPreview
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -275,9 +274,9 @@ interface IBuyer {
 `protected basketButton: HTMLButtonElement;` - принимает элемент кнопки для того, чтобы воспроизводить процесс оформления заказа;  
 `protected basketPrice: HTMLElement;` - принимает элемент, чтобы показывать стоимость товаров в корзине.  
 Методы:  
-`setItems(items: HTMLElement[]);` - обновляет список товаров, что находятся в корзине;  
-`setValidButton(value: boolean);` - проверяет валидность состояния кнопки;  
-`setPrice(value: number);` - обновляет общую стоимость товаров в корзине.  
+`set items(items: HTMLElement[]);` - обновляет список товаров, что находятся в корзине;  
+`set valid(value: boolean);` - проверяет валидность состояния кнопки;  
+`set price(value: number);` - обновляет общую стоимость товаров в корзине.  
 #### Класс Success
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -285,7 +284,7 @@ interface IBuyer {
 `protected successButton: HTMLButtonElement;` - принимает элемент кнопки для того, чтобы показать успешность выполнении заказа;  
 `protected successPrice: HTMLElement;` - принимает элемент, который показывает списанную сумму.  
 Методы:  
-`setPrice(value: number);` - отображает общую списанную стоимость.  
+`set price(value: number);` - отображает общую списанную стоимость.  
 #### Класс Contacts
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -293,8 +292,8 @@ interface IBuyer {
 `protected emailElement: HTMLInputElement;` - строка для ввода электронной почты;  
 `protected phoneElement: HTMLInputElement;` - строка для ввода номера телефона.  
 Методы:  
-`setEmail(value: string);` - задает значение в строке электроной почты;  
-`setPhone(value: string);` - задает значение в строке номера телефона.  
+`set email(value: string);` - задает значение в строке электроной почты;  
+`set phone(value: string);` - задает значение в строке номера телефона.  
 #### Класс Order
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -303,8 +302,8 @@ interface IBuyer {
 `protected cashButton: HTMLButtonElement;` - нужен для кнопки выбора способа оплаты наличными;  
 `protected addressElement: HTMLInputElement;` - строка для ввода адреса доставки.  
 Методы:  
-`setPayment(value: string);` - метод для выбора способа оплаты;  
-`setAddress(value: string);` - задает значение в строке адреса.  
+`set payment(value: TPayment | null)` - метод для выбора способа оплаты;  
+`set address(value: string);` - задает значение в строке адреса.  
 ### Презентер
 #### События
 `("basket:change")` - происходит изменение корзины, а именно добавление и удаление товаров в корзине;  

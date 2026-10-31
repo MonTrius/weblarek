@@ -8,7 +8,7 @@ export class Order extends Form<IOrder> {
   protected cashButton: HTMLButtonElement;
   protected addressElement: HTMLInputElement;
   
-  constructor(container: HTMLElement, protected events: IEvents) {
+  constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
 
     this.cardButton = ensureElement<HTMLButtonElement>("button[name='card']", this.container);
@@ -24,16 +24,16 @@ export class Order extends Form<IOrder> {
     });
 
     this.addressElement.addEventListener('input', () => {
-      events.emit("address:input", { field: "address", value: this.addressElement.value });
+      this.inputChange('address', this.addressElement.value);
     });
   }
 
-  setPayment(value: TPayment) {
+  set payment(value: TPayment | null) {
     this.cardButton.classList.toggle('button_alt-active', value === 'card');
     this.cashButton.classList.toggle('button_alt-active', value === 'cash');
   }
 
-  setAddress(value: string) {
+  set address(value: string) {
     this.addressElement.value = value;
   }
 }

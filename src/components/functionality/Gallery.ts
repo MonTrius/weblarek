@@ -6,7 +6,7 @@ export class Gallery extends Component<IGallery> {
     super(container);
   }
 
-  setCatalog(items: HTMLElement[]) {
+  set catalog(items: HTMLElement[]) {
     this.container.replaceChildren(...items);
   }
 }

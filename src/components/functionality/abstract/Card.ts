@@ -2,8 +2,7 @@ import { Component } from "../../base/Component";
 import { ensureElement } from "../../../utils/utils";
 import { ICard } from "../../../types";
 
-export abstract class Card<T extends ICard> extends Component<T> {
-  protected cardId?: string;
+export abstract class Card<T> extends Component<ICard & T> {
   protected cardTitle: HTMLElement;
   protected cardPrice: HTMLElement;
 
@@ -14,15 +13,11 @@ export abstract class Card<T extends ICard> extends Component<T> {
     this.cardPrice = ensureElement<HTMLElement>(".card__price", this.container);
   }
 
-  setCardId(value: string) {
-    this.cardId = value;
-  }
-
-  setCardTitle(value: string) {
+  set title(value: string) {
     this.cardTitle.textContent = value;
   }
 
-  setCardPrice(value: number | null) {
+  set price(value: number | null) {
     if (value === null) {
       this.cardPrice.textContent = "Бесценно";
     } else {

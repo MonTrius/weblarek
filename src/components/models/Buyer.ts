@@ -1,7 +1,5 @@
-import { IBuyer, TPayment } from "../../types";
+import { IBuyer, TPayment, BuyerValidation } from "../../types";
 import { IEvents } from "../base/Events";
-
-export type BuyerValidation = Partial<Record<keyof IBuyer, string>>;
 
 export class Buyer {
   protected payment: TPayment | null;

@@ -1,6 +1,6 @@
 import { Component } from "../base/Component";
-import { IEvents } from "../base/Events";
 import { ensureElement } from "../../utils/utils";
+import { IEvents } from "../base/Events";
 import { ISuccess } from "../../types";
 
 export class Success extends Component<ISuccess> {
@@ -13,12 +13,12 @@ export class Success extends Component<ISuccess> {
     this.successButton = ensureElement<HTMLButtonElement>(".order-success__close", this.container);
     this.successPrice = ensureElement<HTMLElement>(".order-success__description", this.container);
 
-    this.successButton.addEventListener('click', () => {
+    this.successButton.addEventListener('click', () =>{
       this.events.emit("success:close");
-    });
+    })
   }
 
-  setPrice(value: number) {
+  set price(value: number) {
     this.successPrice.textContent = `Списано ${value} синапсов`;
   }
 }

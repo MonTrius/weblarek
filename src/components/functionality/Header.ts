@@ -18,7 +18,7 @@ export class Header extends Component<IHeader> {
     });
   }
 
-  setCounter(value: number) {
+  set counter(value: number) {
     this.counterElement.textContent = String(value);
   }
 }

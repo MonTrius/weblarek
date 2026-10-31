@@ -7,7 +7,7 @@ export class Contacts extends Form<IContacts> {
   protected emailElement: HTMLInputElement;
   protected phoneElement: HTMLInputElement;
 
-  constructor(container: HTMLElement, protected events: IEvents) {
+  constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
     
     this.emailElement = ensureElement<HTMLInputElement>("input[name='email']", this.container);
@@ -22,11 +22,11 @@ export class Contacts extends Form<IContacts> {
     });
   }
 
-  setEmail(value: string) {
+  set email(value: string) {
     this.emailElement.value = value;
   }
 
-  setPhone(value: string) {
+  set phone(value: string) {
     this.phoneElement.value = value;
   }
 }

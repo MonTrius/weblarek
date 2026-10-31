@@ -10,7 +10,7 @@ export abstract class Form<T extends IForm> extends Component<T> {
   constructor(container: HTMLElement, protected events: IEvents) {
     super(container);
     
-    this.formButton = ensureElement<HTMLButtonElement>(".button[type='submit']", this.container);
+    this.formButton = ensureElement<HTMLButtonElement>(".modal__actions button", this.container);
     this.formError = ensureElement<HTMLElement>(".form__errors", this.container);
 
     this.container.addEventListener('submit', (event: SubmitEvent) => {
@@ -24,11 +24,11 @@ export abstract class Form<T extends IForm> extends Component<T> {
     this.events.emit("input:change", {field, value});
   }
 
-  setValidButton(value: boolean) {
+  set valid(value: boolean) {
     this.formButton.disabled = value;
   }
 
-  setErrors(value: string[]) {
-    this.formError.textContent = value.join(', ');
+  set errors(value: string) {
+    this.formError.textContent = value;
   }
 }

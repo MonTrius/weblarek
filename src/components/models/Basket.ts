@@ -30,7 +30,7 @@ export class Basket {
 
   getPriceBasket(): number {
     return this.selectedProducts.reduce(
-      (price, selectedProduct) => price + (selectedProduct.price || 0),
+      (total, selectedProducts) => total + (selectedProducts.price || 0),
       0,
     );
   }

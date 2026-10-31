@@ -20,24 +20,20 @@ export class BasketPreview extends Component<IBasketPreview> {
     });
   }
 
-
-  setValidButton(value: boolean) {
-    this.basketButton.disabled = value;
+  set valid(value: boolean) {
+    this.basketButton.disabled = !value;
   }
 
-  setItems(items: HTMLElement[]) {
-    if (items.length === 0) {
-      const descr = document.createElement('P');
-      descr.textContent = "Корзина пуста";
-      this.basketProducts.replaceChildren(descr);
-      this.basketButton.disabled = true;
-    } else {
-      this.basketProducts.replaceChildren(...items);
-      this.basketButton.disabled = false;
-    }
+  set items(items: HTMLElement[]) {
+    this.basketProducts.replaceChildren(...items);
   }
 
-  setPrice(value: number) {
+  set price(value: number) {
     this.basketPrice.textContent = `${value} синапсов`;
+  }
+
+  setPurchase(isEmpty: boolean) {
+    this.basketButton.disabled = isEmpty;
+    this.basketButton.classList.toggle('button_disabled', isEmpty);
   }
 }
