@@ -4,15 +4,17 @@ export type TPayment = "card" | "cash";
 
 export type BuyerValidation = Partial<Record<keyof IBuyer, string>>;
 
+export type ICard = Pick<IProduct, 'title' | 'price'>;
+
 export type ICardPreview = Pick<IProduct, "description" | "image" | "category">;
 
 export type ICardCatalog = Pick<IProduct, "image" | "category">;
 
 export type IBasketCard = {
-  index: number;
+  index?: number;
 }
 
-export const Valuta = "синапсов";
+export const Synaps = "синапсов";
 
 export interface IApi {
   get<T extends object>(uri: string): Promise<T>;
@@ -54,8 +56,6 @@ export interface IOrderRequest extends IBuyer {
   items: string[];
 } 
 
-export type ICard = Pick<IProduct, 'title' | 'price'>;
-
 export interface IForm {
   errors: string;
 }
@@ -74,7 +74,7 @@ export interface IModal {
 
 export interface IBasketPreview {
   items: HTMLElement[];
-  total: number;
+  price: number;
 }
 
 export interface ISuccess {

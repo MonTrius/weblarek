@@ -3,7 +3,7 @@ import { Buyer } from "./components/models/Buyer";
 import { Basket } from "./components/models/Basket";
 import { ProductCatalog } from "./components/models/ProductCatalog";
 import { IBuyer, IOrderRequest, IProductResponse } from "./types";
-import { Api } from "./components/base/Api"; 
+import { Api } from "./components/base/Api";
 import { WebApi } from "./components/models/WebApi";
 import { API_URL } from "./utils/constants";
 import { EventEmitter } from "./components/base/Events";
@@ -38,11 +38,12 @@ const previewCard = new PreviewCard(cloneTemplate("#card-preview"), events);
 webApi
   .getProductsRequest()
   .then((products: IProductResponse) => {
-  console.log("Массив товаров от сервера");
-  productCatalog.setProducts(products.items);
-}).catch((error) => {
-  console.error(error);
-});
+    console.log("Массив товаров от сервера");
+    productCatalog.setProducts(products.items);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 events.on("catalog:change", () => {
   const products = productCatalog.getProducts().map((product) => {
@@ -50,14 +51,13 @@ events.on("catalog:change", () => {
       onClick: () => events.emit("card:select", { id: product.id }),
     });
     return card.render(product);
-  })
+  });
   gallery.render({ catalog: products });
 });
 
 events.on("card:select", (product: { id: string }) => {
   productCatalog.setPreview(product.id);
 });
-
 
 events.on("product:change", () => {
   const product = productCatalog.getPreview();
@@ -70,7 +70,9 @@ events.on("product:change", () => {
     previewCard.buttonText = "Недоступно";
     previewCard.disabled = true;
   } else {
-    previewCard.buttonText = basketshop.isInBasket(product.id) ? "Удалить из корзины" : "Купить";
+    previewCard.buttonText = basketshop.isInBasket(product.id)
+      ? "Удалить из корзины"
+      : "Купить";
     previewCard.disabled = false;
   }
   modal.open();
@@ -95,46 +97,60 @@ events.on("PreviewCard:click", () => {
 
 events.on("basket:open", () => {
   buyer.clearBuyerData();
-  basketPreview.setPurchase(basketshop.getProductsBasket() === 0);
+  basketPreview.setPurchaseButton(basketshop.getProductsBasket() === 0);
   modal.open();
-  modal.render({content: basketPreview.render()})
+  modal.render({ content: basketPreview.render() });
 });
 
-events.on("basket:change", () =>{
+events.on("basket:change", () => {
   const basketItems = basketshop.getSelectedProducts().map((item, index) => {
-    const basketCard = new BasketCard(cloneTemplate("#card-basket"), () => basketshop.delProduct(item));
-    basketCard.setId(item.id)
-    return basketCard.render({title: item.title, price: item.price, index: index + 1});
+    const basketCard = new BasketCard(cloneTemplate("#card-basket"), () =>
+      basketshop.delProduct(item),
+    );
+    basketCard.setId(item.id);
+    return basketCard.render({
+      title: item.title,
+      price: item.price,
+      index: index + 1,
+    });
   });
-  basketPreview.render({items: basketItems, total: basketshop.getPriceBasket() || 0  });
+  basketPreview.render({
+    items: basketItems,
+    price: basketshop.getPriceBasket() || 0,
+  });
   header.counter = basketshop.getProductsBasket();
-  basketPreview.setPurchase(basketshop.getProductsBasket() === 0);
+  basketPreview.setPurchaseButton(basketshop.getProductsBasket() === 0);
 });
 
 events.on("order:start", () => {
-  modal.render({ content: order.render()});
+  modal.render({ content: order.render() });
 });
 
 events.on("order:submit", () => {
-  modal.render({ content: contacts.render()});
+  modal.render({ content: contacts.render() });
 });
 
 events.on("contacts:submit", () => {
   const buyerData = buyer.getBuyerData();
   const details: IOrderRequest = {
-    ...buyerData, total: basketshop.getPriceBasket(), items: basketshop.getSelectedProducts().map(item => item.id)
-  }
+    ...buyerData,
+    total: basketshop.getPriceBasket(),
+    items: basketshop.getSelectedProducts().map((item) => item.id),
+  };
 
-  webApi.postOrder(details).then(() => {
-    basketshop.clearBasket();
-    success.price = details.total;
-  }).catch((error) => console.log('Ошибка Api', error));
+  webApi
+    .postOrder(details)
+    .then(() => {
+      basketshop.clearBasket();
+      success.price = details.total;
+    })
+    .catch((error) => console.log("Ошибка Api", error));
 
-  modal.render({ content: success.render()});
+  modal.render({ content: success.render() });
 });
 
-events.on("input:change", (data: { field: keyof IBuyer, value: string }) => {
-  buyer.setBuyerData({[data.field]: data.value});
+events.on("input:change", (data: { field: keyof IBuyer; value: string }) => {
+  buyer.setBuyerData({ [data.field]: data.value });
 });
 
 events.on("buyer:change", () => {
@@ -142,22 +158,22 @@ events.on("buyer:change", () => {
   const buyerData = buyer.getBuyerData();
   const orderValid = [];
   const contactsValid = [];
-  
+
   if (buyerData) {
     order.payment = buyerData.payment || null;
-    order.address = buyerData.address || '';
-    contacts.email = buyerData.email || '';
-    contacts.phone = buyerData.phone || '';
+    order.address = buyerData.address || "";
+    contacts.email = buyerData.email || "";
+    contacts.phone = buyerData.phone || "";
   }
 
   if (valid.payment) orderValid.push(valid.payment);
   if (valid.address) orderValid.push(valid.address);
-  order.errors = orderValid.join(', ');
+  order.errors = orderValid.join(", ");
   order.valid = orderValid.length > 0;
 
   if (valid.email) contactsValid.push(valid.email);
   if (valid.phone) contactsValid.push(valid.phone);
-  contacts.errors = contactsValid.join(', ');
+  contacts.errors = contactsValid.join(", ");
   contacts.valid = contactsValid.length > 0;
 });
 

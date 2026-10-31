@@ -1,7 +1,7 @@
 import { Component } from "../base/Component";
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
-import { ISuccess } from "../../types";
+import { ISuccess, Synaps } from "../../types";
 
 export class Success extends Component<ISuccess> {
   protected successButton: HTMLButtonElement;
@@ -19,6 +19,6 @@ export class Success extends Component<ISuccess> {
   }
 
   set price(value: number) {
-    this.successPrice.textContent = `Списано ${value} синапсов`;
+    this.successPrice.textContent = `Списано ${value} ${Synaps}`;
   }
 }

@@ -1,10 +1,10 @@
 import { Card } from "../functionality/abstract/Card";
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
-import { ICardPreview, IProduct } from "../../types";
+import { ICardPreview } from "../../types";
 import { categoryMap, CDN_URL } from "../../utils/constants";
 
-export class PreviewCard extends Card<IProduct> {
+export class PreviewCard extends Card<ICardPreview> {
   protected cardCategory: HTMLElement;
   protected cardImage: HTMLImageElement;
   protected cardDescription: HTMLElement;
