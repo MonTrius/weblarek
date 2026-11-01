@@ -1,13 +1,12 @@
 import { Component } from "../base/Component";
 import { ensureElement } from "../../utils/utils";
-import { IEvents } from "../base/Events";
 import { IModal } from "../../types";
 
 export class Modal extends Component<IModal> {
   protected modalContent: HTMLElement;
   protected modalButton: HTMLButtonElement;
 
-  constructor(container: HTMLElement, protected events: IEvents) {
+  constructor(container: HTMLElement) {
     super(container);
 
     this.modalContent = ensureElement<HTMLElement>(".modal__content", this.container);

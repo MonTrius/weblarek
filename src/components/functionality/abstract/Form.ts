@@ -20,12 +20,12 @@ export abstract class Form<T extends IForm> extends Component<T> {
     });
   }
 
-  protected inputChange(field: keyof T, value: string) {
+  protected inputChange(field: keyof T, value: string): void {
     this.events.emit("input:change", {field, value});
   }
 
   set valid(value: boolean) {
-    this.formButton.disabled = value;
+    this.formButton.disabled = !value;
   }
 
   set errors(value: string) {

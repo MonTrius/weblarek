@@ -1,7 +1,8 @@
 import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
 import { ensureElement } from "../../utils/utils";
-import { IBasketPreview, Synaps } from "../../types";
+import { IBasketPreview } from "../../types";
+import { CURRENCY } from "../../utils/constants";
 
 export class BasketPreview extends Component<IBasketPreview> {
   protected basketProducts: HTMLUListElement;
@@ -29,11 +30,6 @@ export class BasketPreview extends Component<IBasketPreview> {
   }
 
   set price(value: number) {
-    this.basketPrice.textContent = `${value} ${Synaps}`;
-  }
-
-  setPurchaseButton(isEmpty: boolean) {
-    this.basketButton.disabled = isEmpty;
-    this.basketButton.classList.toggle('button_disabled', isEmpty);
+    this.basketPrice.textContent = `${value} ${CURRENCY}`;
   }
 }

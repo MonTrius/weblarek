@@ -1,13 +1,13 @@
 import { Card } from "../functionality/abstract/Card";
 import { ensureElement } from "../../utils/utils";
-import { ICardCatalog, ICardACtions } from "../../types";
+import { ICardCatalog, ICardActions } from "../../types";
 import { categoryMap, CDN_URL } from "../../utils/constants";
 
 export class CatalogCard extends Card<ICardCatalog> {
   protected cardCategory: HTMLElement;
   protected cardImage: HTMLImageElement;
 
-  constructor(container: HTMLElement, actions?: ICardACtions) {
+  constructor(container: HTMLElement, actions?: ICardActions) {
     super(container);
 
     this.cardCategory = ensureElement<HTMLElement>(".card__category", this.container);

@@ -133,7 +133,7 @@ interface IBuyer {
 }
 ```
 Поля:  
-`payment: TPayment;` - метод оплаты, где выбран способ TPayment;  
+`payment: TPayment | null;` - метод оплаты, где выбран способ TPayment;  
 `email: string;` - адрес электронной почты;  
 `phone: string;` - номер телефона;  
 `address: string;` - адрес для доставки товара.  
@@ -151,7 +151,7 @@ interface IBuyer {
 `setProducts(selectedProducts: IProduct[]): void;` - сохранение массива товаров полученного в параметрах метода;  
 `getProducts(): IProduct[];` - получение массива товаров из модели;  
 `getProductByID(id: string): IProduct | undefined;` - получение одного товара по его id;  
-`setPreview(item: IProduct)` - сохраняет товар для подробного отображения;  
+`setPreview(id: string): void` - принимает айди товара для подробного отображения;  
 `getPreview(): IProduct | null;` - получение товара для подробного отображения.  
 #### Класс `Basket`
 Данный класс используется для хранения товаров в корзине, что отобрал покупатель, где можно добавлять/удалять выбранный товар. Дополнительно дает возможность получения стоимости и количества всех товаров в корзине.
@@ -180,7 +180,7 @@ interface IBuyer {
 `setBuyerData(data: Partial<IBuyer>): void;` - производит сохранение новых данных в модели, при этом позволяя частичное изменение поля, что не затрагивает другие поля;  
 `getBuyerData(): IBuyer;` - получение всех данных покупателя;  
 `clearBuyerData(): void;` - очистка данных покупателя;  
-`isValidData(data: Partial<IBuyer>): BuyerValidation;` - проверка валидации данных,  
+`isValidData(): BuyerValidation;` - проверка валидации данных,  
 где `type BuyerValidation = Partial<Record<keyof IBuyer, string>>;`.  
 ### Слой коммуникации
 #### Класс WebApi
@@ -210,7 +210,7 @@ interface IBuyer {
 `protected formButton: HTMLButtonElement;` - принимает элемент для того, чтобы подтверждать отправку данных;  
 `protected formError: HTMLElement;` - принимает элемент для того, чтобы отображать ошибки формы.  
 Методы:  
-`protected inputChange(field: keyof T, value: string);` - метод, который выполняет генерацию события;  
+`protected inputChange(field: keyof T, value: string): void;` - метод, который выполняет генерацию события;  
 `set valid(value: boolean);` - проверяет валидность состояния кнопки;  
 `set errors(value: string);` - показывает ошибки формы.  
 #### Класс Gallery
@@ -228,26 +228,25 @@ interface IBuyer {
 `set counter(value: number);` - сеттер для изменения количество товаров в корзине.  
 #### Класс Modal
 Конструктор:  
-`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+`constructor(container: HTMLElement);` - получает контейнер элемента.  
 Поля:  
 `protected modalContent: HTMLElement;` - область модального окна для его содержимого;  
 `protected modalButton: HTMLButtonElement;` - элемент кнопки нужен для закрытия модального окна.  
 Методы:  
 `set сontent(value: HTMLElement);` - сеттер для установки текущего элемента в области модального окна;  
-`open(): void;` - сеттер для открытия модального окна;  
-`close(): void;` - сеттер для закрытия модального окна.  
+`open(): void;` - метод для открытия модального окна;  
+`close(): void;` - метод для закрытия модального окна.  
 #### Класс BasketCard
 Конструктор:  
-`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+`constructor(container: HTMLElement, actions?: ICardActions);` - получает контейнер элемента, а также обработчик клика.  
 Поля:  
 `protected cardIndex: HTMLElement;` - элемент отвечает за номер товара в корзине;  
 `protected cardButton: HTMLButtonElement;` - принимает элемент кнопки для удаления товара из корзины.  
 Методы:  
-`setId(id: string): void;` - метод для установки айди товара в корзине;  
 `set index(value: number);` - сеттер для установки номера товара в корзине.  
 #### Класс CatalogCard
 Конструктор:  
-`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+`constructor(container: HTMLElement, actions?: ICardActions);` - получает контейнер элемента, а также обработчик клика.  
 Поля:  
 `protected cardCategory: HTMLElement;` - принимает элемент для категории карточки товара;  
 `protected cardImage: HTMLImageElement;` - принимает элемент изображения для товара.  
@@ -278,8 +277,7 @@ interface IBuyer {
 Методы:  
 `set items(items: HTMLElement[]);` - обновляет список товаров, что находятся в корзине;  
 `set valid(value: boolean);` - проверяет валидность состояния кнопки;  
-`set price(value: number);` - обновляет общую стоимость товаров в корзине;  
-`setPurchaseButton(isEmpty: boolean);` - метод для блокирования кнопки.  
+`set price(value: number);` - обновляет общую стоимость товаров в корзине.  
 #### Класс Success
 Конструктор:  
 `constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
@@ -287,10 +285,10 @@ interface IBuyer {
 `protected successButton: HTMLButtonElement;` - принимает элемент кнопки для того, чтобы показать успешность выполнении заказа;  
 `protected successPrice: HTMLElement;` - принимает элемент, который показывает списанную сумму.  
 Методы:  
-`set price(value: number);` - отображает общую списанную стоимость.  
+`set total(value: number);` - отображает общую списанную стоимость.  
 #### Класс Contacts
 Конструктор:  
-`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+`constructor(container: HTMLElement, events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
 Поля:  
 `protected emailElement: HTMLInputElement;` - строка для ввода электронной почты;  
 `protected phoneElement: HTMLInputElement;` - строка для ввода номера телефона.  
@@ -299,25 +297,33 @@ interface IBuyer {
 `set phone(value: string);` - задает значение в строке номера телефона.  
 #### Класс Order
 Конструктор:  
-`constructor(container: HTMLElement, protected events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
+`constructor(container: HTMLElement, events: IEvents);` - получает контейнер элемента, а также объект для управления событий.  
 Поля:  
 `protected cardButton: HTMLButtonElement;` - нужен для кнопки выбора способа оплаты по карте;  
 `protected cashButton: HTMLButtonElement;` - нужен для кнопки выбора способа оплаты наличными;  
 `protected addressElement: HTMLInputElement;` - строка для ввода адреса доставки.  
 Методы:  
-`set payment(value: TPayment | null)` - сеттер для выбора способа оплаты;  
+`set payment(value: TPayment | null);` - сеттер для выбора способа оплаты;  
 `set address(value: string);` - задает значение в строке адреса.  
 ### Презентер
+Задача презентера только обрабатывать события, то есть события генерируются в моделях данных при их изменении  
+или в представлениях при действиях пользователя.  
+* Презентер - связывает модели и представления через события, благодаря этому компоненты не знают друг о друге напрямую;  
+* `models` - хранит бизнес-логику (Basket, Buyer, ProductCatalog...);  
+* `functionality` - выполняет задачу за отображение данных (Card, Form, Modal...).  
+#### Расположение
+Код презентера находится в файле под названием `main.ts`.  
 #### События
 `("catalog:change")` - происходит изменение каталога товаров;  
-`("card:select")` - происходит отображение карточки;  
+`("card:select")` - пользователь выбрал карточку, а отображение выполняется по событию модели `("product:change")`;  
 `("product:change")` - происходит изменение карточки товара с его доступностью;  
 `("PreviewCard:click")` - происходит взаимодействие с отображаемой карточкой;  
-`("basket:open")` - происходит открытие корзины из шапки сайта;   
+`("basket:open")` - происходит открытие корзины из шапки сайта;  
+`("card:delete")` - происходит удаление товара из корзины;  
 `("basket:change")` - происходит изменение корзины;  
 `("order:start")` - происходит начало процесса оформления заказа с переходом на окно оплаты;  
 `("order:submit")` - происходит подтверждение окно оплаты с переходом на окно контактов;  
 `("contacts:submit")` - происходит передача информации на сервер с помощью `postOrder` запроса;  
 `("input:change")` - происходит передача информации в модель данных об изменениях в форме;  
-`("buyer:change")` - происходит проверка данных покупателя;  
+`("buyer:change")` - сообщает об изменении данных покупателя, проверка выполняется уже в обработчике;  
 `("success:close")` - происходит закрытие модального окна заказа уведомляя об его успешности.  

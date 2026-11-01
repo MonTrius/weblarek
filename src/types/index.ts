@@ -6,15 +6,16 @@ export type BuyerValidation = Partial<Record<keyof IBuyer, string>>;
 
 export type ICard = Pick<IProduct, 'title' | 'price'>;
 
-export type ICardPreview = Pick<IProduct, "description" | "image" | "category">;
+export type ICardPreview = Pick<IProduct, "description" | "image" | "category"> & {
+  buttonText: string;
+  disabled: boolean;
+};
 
 export type ICardCatalog = Pick<IProduct, "image" | "category">;
 
 export type IBasketCard = {
   index?: number;
 }
-
-export const Synaps = "синапсов";
 
 export interface IApi {
   get<T extends object>(uri: string): Promise<T>;
@@ -57,6 +58,7 @@ export interface IOrderRequest extends IBuyer {
 } 
 
 export interface IForm {
+  valid: boolean;
   errors: string;
 }
 
@@ -73,6 +75,7 @@ export interface IModal {
 }
 
 export interface IBasketPreview {
+  valid: boolean;
   items: HTMLElement[];
   price: number;
 }
@@ -91,6 +94,6 @@ export interface IOrder extends IForm {
   address: string;
 }
 
-export interface ICardACtions {
+export interface ICardActions {
   onClick?: (event: MouseEvent) => void;
 }

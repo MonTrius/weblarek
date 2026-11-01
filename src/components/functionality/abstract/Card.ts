@@ -1,6 +1,7 @@
 import { Component } from "../../base/Component";
 import { ensureElement } from "../../../utils/utils";
-import { ICard, Synaps } from "../../../types";
+import { ICard } from "../../../types";
+import { CURRENCY } from "../../../utils/constants"
 
 export abstract class Card<T> extends Component<ICard & T> {
   protected cardTitle: HTMLElement;
@@ -21,7 +22,7 @@ export abstract class Card<T> extends Component<ICard & T> {
     if (value === null) {
       this.cardPrice.textContent = "Бесценно";
     } else {
-      this.cardPrice.textContent = `${value} ${Synaps}`;
+      this.cardPrice.textContent = `${value} ${CURRENCY}`;
     }
   }
 }

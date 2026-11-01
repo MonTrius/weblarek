@@ -20,3 +20,4 @@ export const settings = {
 
 };
 
+export const CURRENCY = "синапсов";
