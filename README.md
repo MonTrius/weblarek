@@ -191,8 +191,8 @@ interface IBuyer {
 Поля:
 `protected api: IApi;` - объект для запросов.
 Методы:  
-`getProductsRequest(): Promise<IProductResponse>;` - производит GET запрос на эндпоинт `/product/` и возвращает объект, полученный от сервера, в котором находится массив товаров;  
-`postOrder(order: IOrderRequest): Promise<IOrderResponse>;` - производит POST запрос на эндпоинт `/order/` и передает в него данные, а также возвращает объект, подтверждающий покупку на определенную сумму.  
+`async getProductsRequest(): Promise<IProductResponse>;` - производит GET запрос на эндпоинт `/product/` и возвращает объект, полученный от сервера, в котором находится массив товаров;  
+`async postOrder(order: IOrderRequest): Promise<IOrderResponse>;` - производит POST запрос на эндпоинт `/order/` и передает в него данные, а также возвращает объект, подтверждающий покупку на определенную сумму.  
 ### Слой представления
 #### Абстрактный класс Card
 Конструктор:  
