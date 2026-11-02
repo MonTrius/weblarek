@@ -64,7 +64,6 @@ events.on("product:change", () => {
   const hasInBasket = basket.isInBasket(product.id);
   const isUnavailable = product.price === null;
   const buttonText = isUnavailable ? "Недоступно" : hasInBasket ? "Удалить из корзины" : "Купить";
-  const disabled = isUnavailable;
   
   modal.open();
   modal.render({ content: previewCard.render({
@@ -74,7 +73,7 @@ events.on("product:change", () => {
     image: product.image,
     category: product.category,
     buttonText,
-    disabled,
+    disabled: isUnavailable,
   }) });
 });
 
@@ -158,10 +157,10 @@ events.on("buyer:change", () => {
   const orderErrors = [];
   const contactsErrors = [];
   
-    order.payment = buyerData.payment;
-    order.address = buyerData.address;
-    contacts.email = buyerData.email;
-    contacts.phone = buyerData.phone;
+  order.payment = buyerData.payment;
+  order.address = buyerData.address;
+  contacts.email = buyerData.email;
+  contacts.phone = buyerData.phone;
 
   if (valid.payment) orderErrors.push(valid.payment);
   if (valid.address) orderErrors.push(valid.address);

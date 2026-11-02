@@ -47,6 +47,5 @@ export class PreviewCard extends Card<ICardPreview> {
 
   set disabled(value: boolean) {
     this.cardButton.disabled = value;
-    this.cardButton.classList.toggle('button_disabled', value);
   }
 }

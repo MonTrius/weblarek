@@ -233,7 +233,7 @@ interface IBuyer {
 `protected modalContent: HTMLElement;` - область модального окна для его содержимого;  
 `protected modalButton: HTMLButtonElement;` - элемент кнопки нужен для закрытия модального окна.  
 Методы:  
-`set сontent(value: HTMLElement);` - сеттер для установки текущего элемента в области модального окна;  
+`set content(value: HTMLElement);` - сеттер для установки текущего элемента в области модального окна;  
 `open(): void;` - метод для открытия модального окна;  
 `close(): void;` - метод для закрытия модального окна.  
 #### Класс BasketCard
